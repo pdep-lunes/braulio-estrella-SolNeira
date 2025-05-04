@@ -73,3 +73,9 @@ lluviaDeTuercas personaje
         | esAliado personaje = personaje {cantidadDeVida = cantidadDeVida personaje + 800}
         | otherwise = personaje {cantidadDeVida = div (cantidadDeVida personaje) 2}
         
+{-torretaCurativa: le activa el súper a su aliado y lo deja con el doble de su salud inicial.-}
+
+torretaCurativa :: Poder
+torretaCurativa personaje 
+        | esAliado personaje = personaje {poderActivo = True, cantidadDeVida = cantidadDeVida personaje * 2}
+        | otherwise = personaje
