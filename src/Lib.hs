@@ -85,3 +85,10 @@ atacarConElPoderEspecial :: Personaje -> Personaje -> Personaje
 atacarConElPoderEspecial personaje contrincante 
         | poderActivo personaje = (poderBasico personaje . superPoder personaje) contrincante
         | otherwise = contrincante
+
+
+{-saber quiénes están en las últimas: es decir, el nombre de aquellos brawlers que tienen menos de 800 puntos de 
+vida.-}
+
+enLasUltimas :: [Personaje] -> [String]
+enLasUltimas braulios =  map nombre (filter ((<800).cantidadDeVida) braulios)
