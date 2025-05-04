@@ -54,7 +54,7 @@ de vida. En otro caso, se usa una bola de espinas.-}
 
 granadaDeEspinas :: Int -> Poder
 granadaDeEspinas radio personaje 
-        | (radio > 3) && (cantidadDeVida personaje < 800) = personaje {poderActivo = False, cantidadDeVida = 0}
+        | (radio > 3) && (cantidadDeVida personaje < 800) = personaje {nombre = nombre personaje ++ " Espina estuvo aqui", poderActivo = False, cantidadDeVida = 0}
         | radio > 3 =  personaje {nombre = nombre personaje ++ " Espina estuvo aqui"}
         | otherwise = bolaEspinosa personaje
 
@@ -77,3 +77,11 @@ torretaCurativa :: Poder
 torretaCurativa personaje 
         | esAliado personaje = personaje {poderActivo = True, cantidadDeVida = cantidadDeVida personaje * 2}
         | otherwise = personaje
+
+{-atacar con el poder especial: si el personaje tiene el súper poder activo, entonces va a atacar 
+a su contrincante con el súper y con el básico. Si no, no hará nada.-}
+
+atacarConElPoderEspecial :: Personaje -> Personaje -> Personaje
+atacarConElPoderEspecial personaje contrincante 
+        | poderActivo personaje = (poderBasico personaje . superPoder personaje) contrincante
+        | otherwise = contrincante
