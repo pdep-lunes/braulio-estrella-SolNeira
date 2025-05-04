@@ -19,8 +19,7 @@ equipo = [espina, pamela]
 data Personaje = UnPersonaje {
         nombre :: String,
         poderBasico :: Poder,
-        --superPoder :: Poder,
-        radioSuperPoder :: Int,
+        superPoder :: Poder,
         poderActivo :: Bool,
         cantidadDeVida :: Int
 } deriving Show
@@ -29,8 +28,7 @@ espina :: Personaje
 espina = UnPersonaje {
         nombre = "Espina",
         poderBasico = bolaEspinosa,
-        --superPoder = granadaDeEspinas,
-        radioSuperPoder = 5,
+        superPoder = (granadaDeEspinas 5),
         poderActivo = True,
         cantidadDeVida = 4800
 }
@@ -39,8 +37,7 @@ pamela :: Personaje
 pamela = UnPersonaje {
         nombre = "Pamela",
         poderBasico = lluviaDeTuercas,
-        --superPoder = torretaCurativa,
-        radioSuperPoder = 0,
+        superPoder = torretaCurativa,
         poderActivo = False,
         cantidadDeVida = 9600
 }
@@ -54,11 +51,12 @@ bolaEspinosa personaje = personaje {cantidadDeVida = max 0 (cantidadDeVida perso
 {-granadaDeEspinas: el daño va a depender del radio de explosión de la misma. Si es mayor a 3, le agregara a su 
 nombre “Espina estuvo aquí”. Si además su contrincante tiene menos de 800 vida, desactiva su súper y lo deja con 0 
 de vida. En otro caso, se usa una bola de espinas.-}
-{-
-granadaDeEspinas :: Personaje -> Personaje
-granadaDeEspinas personaje =
-        | 
--}
+
+granadaDeEspinas :: Int -> Poder
+granadaDeEspinas radio personaje 
+        | (radio > 3) && (cantidadDeVida personaje < 800) = personaje {poderActivo = False, cantidadDeVida = 0}
+        | radio > 3 =  personaje {nombre = nombre personaje ++ " Espina estuvo aqui"}
+        | otherwise = bolaEspinosa personaje
 
 {-lluviaDeTuercas: pueden ser sanadoras o dañinas. Las primeras le suman 800 puntos de vida a su colega y las 
 segundas le disminuyen a la mitad la vida de quien sea su contrincante. En cualquier otro caso, no le pasa nada al 
